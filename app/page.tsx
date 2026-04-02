@@ -792,9 +792,20 @@ export default function PrelightLanding() {
         <div className="text-gray-400 font-medium text-sm">
           Brand-first. Policy-compliant. Fully private.
         </div>
-        <a href="mailto:hello@prelight.ai" className="text-prelight-blue hover:text-white transition-colors font-medium">
-          hello@prelight.ai
-        </a>
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          <a href="mailto:hello@prelight.ai" className="text-prelight-blue hover:text-white transition-colors font-medium">
+            hello@prelight.ai
+          </a>
+          <span className="text-white/20 hidden md:inline">·</span>
+          <a
+            href="https://webasi.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[12px] text-gray-500 hover:text-white transition-colors tracking-wide"
+          >
+            design by <span className="font-bold text-gray-300">WEBASI</span>
+          </a>
+        </div>
       </footer>
 
       {/* ON-PAGE MODAL */}
