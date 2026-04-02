@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import DarkVeil from './reactBitCompo/darkveli';
+import SoftAurora from './reactBitCompo/SoftAurora';
+import GradientText from './reactBitCompo/GradientText';
 import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb } from 'lucide-react';
 
 // --- REUSABLE COMPONENTS ---
@@ -24,6 +26,12 @@ import Button from './components/Button';
 
 export default function PrelightLanding() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: videoContainerRef,
+    offset: ["start end", "center center"]
+  });
+  const videoScale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -35,9 +43,9 @@ export default function PrelightLanding() {
   return (
     <main className="relative overflow-hidden selection:bg-prelight-purple selection:text-white">
       
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-4 bg-black/40 backdrop-blur-md border-b border-white/5 flex items-center justify-between pointer-events-auto">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6 bg-black/40 backdrop-blur-md border-b border-white/5 flex items-center justify-between pointer-events-auto">
         <div className="text-xl font-semibold flex items-center gap-2">
-          <span className="w-6 h-6 rounded bg-gradient-to-br from-prelight-blue to-prelight-purple inline-block"></span>
+          <img src="/logo.png" alt="Prelight Logo" className="w-[30px] h-[30px] object-contain" />
           prelight
         </div>
         <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
@@ -47,7 +55,7 @@ export default function PrelightLanding() {
           <a href="#" className="hover:text-white transition-colors">Company</a>
         </div>
         <div className="flex items-center gap-4">
-          <a href="#" className="text-sm font-medium text-gray-300 hover:text-white transition-colors hidden md:block">Log in</a>
+          
           <Button onClick={() => setIsModalOpen(true)}>
             Request Demo
           </Button>
@@ -80,25 +88,22 @@ export default function PrelightLanding() {
             className="mb-8"
           >
             {/* Logo Placeholder */}
-            <h2 className="text-[20px] font-bold leading-normal flex items-center gap-2">
-              <span className="w-3 h-3 rounded-md bg-gradient-to-br from-prelight-blue to-prelight-purple inline-block"></span>
-              prelight
-            </h2>
+            <div className="flex items-center justify-center mb-2">
+              <img src="/logo.png" alt="Prelight Logo" className="h-16 w-auto object-contain" />
+            </div>
           </motion.div>
 
           <FadeIn>
-            <h1 className="text-[40px] font-bold leading-normal mb-6 uppercase">
+            <h1 className="text-[50px] font-bold leading-normal mb-6 uppercase">
               Control your IP in AI-driven content workflows
             </h1>
           </FadeIn>
           
           <FadeIn delay={0.2}>
-            <p className="text-[15px] font-normal opacity-80 mb-4 max-w-[500px]">
-              Prelight helps studios, brands, and agencies create, scale, and govern content with consistency and full ownership.
+            <p className="text-[15px] font-normal opacity-80 mb-8 max-w-[500px]">
+              Prelight helps studios, brands, and agencies create, scale, and govern content with consistency and full ownership.Start with a focused 4-6 week pilot to measure real production impact.
             </p>
-            <p className="text-[15px] font-normal opacity-80 mb-8">
-              Start with a focused 4-6 week pilot to measure real production impact.
-            </p>
+            
           </FadeIn>
 
           <FadeIn delay={0.4}>
@@ -119,24 +124,40 @@ export default function PrelightLanding() {
       </section>
 
       {/* 2. BUILT FOR IP CRITICAL BUSINESSES */}
-      <section className="py-32 px-8 bg-prelight-black flex flex-col items-center text-center">
+      <section className="py-32 px-8 bg-black  flex flex-col items-center text-center">
         <div className="max-w-6xl w-full mx-auto">
           <FadeIn>
-            <h2 className="text-[40px] font-bold leading-normal mb-12">
-              Built for <span className="text-prelight-purple">IP</span> Critical Businesses
+            <h2 className="text-[40px] font-medium leading-normal mb-12">
+              Built for  <span className="text-[#4da6ff] font-light">IP</span> Critical Businesses
             </h2>
           </FadeIn>
           
           <FadeIn delay={0.2}>
             {/* Video Placeholder */}
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-16 border border-white/10 bg-gray-900 group cursor-pointer max-w-4xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-black"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-md border border-white/10 group-hover:scale-110 transition-transform">
-                  <div className="w-0 h-0 border-t-8 border-b-8 border-l-[14px] border-transparent border-l-white ml-2"></div>
-                </div>
+            <motion.div 
+              ref={videoContainerRef}
+              style={{ scale: videoScale }}
+              className="relative w-full aspect-video rounded-xl mb-16 max-w-4xl mx-auto p-[2px] overflow-hidden group"
+            >
+              {/* Moving purple shine */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                className="absolute -inset-[100%] z-0 bg-[conic-gradient(from_0deg,transparent_0_300deg,#8b5cf6_360deg)] opacity-80"
+              />
+              
+              {/* Inner container to hold the video and mask the shine */}
+              <div className="relative z-10 w-full h-full bg-prelight-black rounded-xl overflow-hidden flex items-center justify-center border border-white/10 shadow-2xl">
+                <video 
+                  src="/aboutVid.webm"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
               </div>
-            </div>
+            </motion.div>
           </FadeIn>
 
           {/* 3 Cards */}
@@ -180,56 +201,118 @@ export default function PrelightLanding() {
         </div>
       </section>
 
-      {/* 3. PILOT (KEY SECTION) */}
-      <section className="py-24 px-8 bg-gradient-to-b from-prelight-black to-[#0a0a1a]">
-        <div className="max-w-6xl mx-auto">
-          <FadeIn>
-            <h2 className="text-[40px] font-bold leading-normal mb-16">Start with a focused pilot</h2>
-          </FadeIn>
+      {/* 3. HOW IT WORKS (Previously PILOT) */}
+      <section className="relative py-32 px-8 overflow-hidden bg-black">
+        {/* Soft Aurora Background */}
+        <div className="absolute inset-0 z-0">
+          <SoftAurora 
+            color1="#0077b6" 
+            color2="#692bdf" 
+            speed={0.5} 
+            brightness={0.8}
+            enableMouseInteraction={true}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start mb-32 gap-12">
+            <FadeIn>
+              <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white">
+                How Prelight <br />
+                <span className="text-[#4da6ff] font-light">Works</span>
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <div className="md:max-w-[400px] text-left pt-2">
+                <p className="text-[18px] font-normal leading-relaxed text-gray-300">
+                  From secure IP management to global content scaling: a complete end-to-end workflow
+                </p>
+              </div>
+            </FadeIn>
+          </div>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-16 text-center md:text-left">
             {[
-              { step: "1", title: "Define one workflow", desc: "Organize and enrich your IP" },
-              { step: "2", title: "Run for 4-6 weeks", desc: "Real production work, zero friction" },
-              { step: "3", title: "Measure real results", desc: "Time to asset, approval speed, revision cycles, output volume" }
+              { 
+                step: "01", 
+                title: "INGEST", 
+                desc: "Upload brand assets, characters, and guidelines into a secure system" 
+              },
+              { 
+                step: "02", 
+                title: "GENERATE", 
+                desc: "Create scripts, visuals, and localized content across 70+ languages" 
+              },
+              { 
+                step: "03", 
+                title: "MONITOR", 
+                desc: "Track usage, detect misuse, and ensure compliance across platforms" 
+              }
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 0.2}>
-                <div className="p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
-                  <div className="w-12 h-12 rounded-full bg-prelight-blue/20 flex items-center justify-center text-prelight-blue font-semibold text-xl mb-6">
+                <div className="relative flex flex-col items-center md:items-start group pt-8">
+                  {/* Background Number */}
+                  <div className="absolute top-0 md:-top-16 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 text-[160px] font-black leading-none text-white/5 pointer-events-none select-none transition-transform duration-500 group-hover:scale-105 z-0">
                     {item.step}
                   </div>
-                  <h3 className="text-[40px] font-bold leading-normal mb-4">{item.title}</h3>
-                  <p className="text-[15px] font-normal opacity-80">{item.desc}</p>
+                  {/* Foreground Content */}
+                  <div className="relative z-10 mt-16 md:mt-20 px-4 md:px-0 py-6 md:py-0">
+                    <h3 className="text-[22px] font-bold text-[#4da6ff] uppercase tracking-wider mb-4">{item.title}</h3>
+                    <p className="text-[15px] font-normal text-gray-300 leading-relaxed max-w-xs mx-auto md:mx-0">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
               </FadeIn>
             ))}
           </div>
-          
-          <FadeIn delay={0.6}>
-            <p className="text-[15px] font-normal opacity-80">
-              This is not a demo—it's real production work.
-            </p>
-          </FadeIn>
         </div>
       </section>
 
       {/* 4. RESULTS (STATS) */}
-      <section className="py-24 px-8 bg-prelight-black">
+      <section className="py-24 px-8 bg-black">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <h2 className="text-[40px] font-bold leading-normal mb-16">Measured impact</h2>
+            <h2 className="text-[40px] font-medium leading-normal mb-16 text-center">Measured Impact</h2>
           </FadeIn>
           <div className="grid md:grid-cols-3 gap-12 text-center border-t border-b border-white/10 py-16">
             <FadeIn delay={0.1}>
-              <div className="text-6xl md:text-7xl font-semibold text-prelight-white mb-2">60-80%</div>
+              <div className="mb-2 inline-block">
+                <GradientText
+                  colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+                  animationSpeed={8}
+                  showBorder={false}
+                  className="text-6xl md:text-7xl font-semibold"
+                >
+                  60-80%
+                </GradientText>
+              </div>
               <div className="text-xl text-gray-400 font-medium">faster approvals</div>
             </FadeIn>
             <FadeIn delay={0.3}>
-              <div className="text-6xl md:text-7xl font-semibold text-prelight-white mb-2">50-70%</div>
+              <div className="mb-2 inline-block">
+                <GradientText
+                  colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+                  animationSpeed={8}
+                  showBorder={false}
+                  className="text-6xl md:text-7xl font-semibold"
+                >
+                  50-70%
+                </GradientText>
+              </div>
               <div className="text-xl text-gray-400 font-medium">fewer revisions</div>
             </FadeIn>
             <FadeIn delay={0.5}>
-              <div className="text-6xl md:text-7xl font-semibold text-prelight-white mb-2">2-3x</div>
+              <div className="mb-2 inline-block">
+                <GradientText
+                  colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
+                  animationSpeed={8}
+                  showBorder={false}
+                  className="text-6xl md:text-7xl font-semibold"
+                >
+                  2-3x
+                </GradientText>
+              </div>
               <div className="text-xl text-gray-400 font-medium">content output</div>
             </FadeIn>
           </div>
@@ -348,7 +431,7 @@ export default function PrelightLanding() {
       {/* 10. FOOTER */}
       <footer className="py-12 px-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="text-xl font-semibold flex items-center gap-2">
-          <span className="w-6 h-6 rounded bg-gradient-to-br from-prelight-blue to-prelight-purple inline-block"></span>
+          <img src="/logo.png" alt="Prelight Logo" className="w-[30px] h-[30px] object-contain" />
           prelight
         </div>
         <div className="text-gray-400 font-medium text-sm">

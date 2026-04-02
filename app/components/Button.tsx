@@ -4,25 +4,25 @@ export default function Button({ onClick, children, className = "" }: { onClick:
   return (
     <button
       onClick={onClick}
-      className={`relative group border-none bg-transparent p-0 outline-none cursor-pointer font-sans font-semibold uppercase text-base ${className}`}
+      className={`relative group border-none bg-transparent p-0 outline-none cursor-pointer font-sans font-semibold uppercase text-xs ${className}`}
     >
       <span
-        className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-25 rounded-lg transform translate-y-0.5 transition duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:translate-y-1 group-hover:duration-[250ms] group-active:translate-y-px"
+        className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-25 rounded transform translate-y-0.5 transition duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:translate-y-1 group-hover:duration-[250ms] group-active:translate-y-px"
       ></span>
 
       <span
-        className="absolute top-0 left-0 w-full h-full rounded-lg bg-gradient-to-l from-blue-700 via-purple-600 to-blue-700"
+        className="absolute top-0 left-0 w-full h-full rounded bg-gradient-to-l from-blue-700 via-purple-600 to-blue-700"
       ></span>
 
       <div
-        className="relative flex items-center justify-between py-3 px-8 text-lg text-white rounded-lg transform -translate-y-1 bg-gradient-to-r from-blue-500 to-purple-500 gap-3 transition duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-1.5 group-hover:duration-[250ms] group-active:-translate-y-0.5 brightness-100 group-hover:brightness-110"
+        className="relative flex items-center justify-between py-1.5 px-4 text-xs text-white rounded transform -translate-y-1 bg-gradient-to-r from-blue-500 to-purple-500 gap-1.5 transition duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-1.5 group-hover:duration-[250ms] group-active:-translate-y-0.5 brightness-100 group-hover:brightness-110"
       >
         <span className="select-none">{children}</span>
 
         <svg
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="w-5 h-5 ml-2 -mr-1 transition duration-250 group-hover:translate-x-1"
+          className="w-3.5 h-3.5 ml-1 -mr-0.5 transition duration-250 group-hover:translate-x-1"
         >
           <path
             clipRule="evenodd"
