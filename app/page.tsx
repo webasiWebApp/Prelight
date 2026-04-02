@@ -599,6 +599,40 @@ export default function PrelightLanding() {
         </div>
       </section>
 
+       <section className="py-24 px-8 bg-black border-t border-white/5">
+        <div className="max-w-5xl mx-auto text-center">
+          <FadeIn>
+            <h2 className="text-[40px] font-bold leading-normal mb-4">
+              Elevated Partnerships.
+            </h2>
+            <p className="text-[15px] font-normal opacity-60 max-w-md mx-auto mb-16 leading-relaxed">
+              Trusted by studios, brands, and agencies pushing the frontier of content at scale.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+              {[
+                { src: "/sponcer/1.png", alt: "Partner 1" },
+                { src: "/sponcer/2.png", alt: "Partner 2" },
+                { src: "/sponcer/3.png", alt: "Partner 3" },
+                { src: "/sponcer/4.png", alt: "Partner 4" },
+              ].map((logo, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-center transition-opacity duration-300 "
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-16 md:h-18 w-auto object-contain max-w-[140px]"
+                  />
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* 9. FINAL CTA */}
       <section className="py-20 px-8 bg-black">
         <FadeIn>
@@ -656,6 +690,8 @@ export default function PrelightLanding() {
       </section>
 
       {/* 10. FOOTER */}
+     
+
       <footer className="py-12 px-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="text-xl font-semibold flex items-center gap-2">
           <img src="/logo.png" alt="Prelight Logo" className="w-[30px] h-[30px] object-contain" />
