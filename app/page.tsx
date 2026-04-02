@@ -13,6 +13,8 @@ import 'swiper/css/pagination';
 import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb, Component, User, Shield, Lock, FileCheck, ChevronRight, Network, ShieldCheck, Zap, FileSignature } from 'lucide-react';
 import MagicBento from '@/components/MagicBento';
 import Grainient from '@/components/Grainient';
+import ShinyText from '@/components/ShinyText';
+import MagicRings from '@/components/MagicRings';
 
 // --- REUSABLE COMPONENTS ---
 
@@ -172,9 +174,15 @@ export default function PrelightLanding() {
       <section className="py-32 px-8 bg-black  flex flex-col items-center text-center">
         <div className="max-w-6xl w-full mx-auto">
           <FadeIn>
-            <h2 className="text-[40px] font-medium leading-normal mb-12">
+            <div className="mb-5">
+              <ShinyText text="✦ WHO IT'S FOR" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
+            <h2 className="text-[40px] font-medium leading-normal mb-4">
               Built for  <span className="text-[#4da6ff] font-light capitalize">IP</span> Critical Businesses
             </h2>
+            <p className="text-[15px] font-normal opacity-60 max-w-lg mx-auto mb-12">
+              From studios to global brands — any team that creates, governs, or scales proprietary creative assets at volume.
+            </p>
           </FadeIn>
           
           <FadeIn delay={0.2}>
@@ -262,6 +270,9 @@ export default function PrelightLanding() {
         <div className="relative z-10 max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start mb-32 gap-12">
             <FadeIn>
+              <div className="mb-5">
+                <ShinyText text="✦ THE PROCESS" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+              </div>
               <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white">
                 How Prelight <br />
                 <span className="text-[#4da6ff] font-light">Works</span>
@@ -318,7 +329,13 @@ export default function PrelightLanding() {
       <section className="py-24 px-8 bg-black">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <h2 className="text-[40px] font-medium leading-normal mb-16 text-center capitalize">Measured Impact</h2>
+            <div className="mb-5 text-center">
+              <ShinyText text="✦ REAL RESULTS" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
+            <h2 className="text-[40px] font-medium leading-normal mb-4 text-center capitalize">Measured Impact</h2>
+            <p className="text-[15px] font-normal opacity-60 max-w-lg mx-auto mb-16 text-center">
+              Numbers from real pilots run with global studios and content teams over a 6-week period.
+            </p>
           </FadeIn>
           <div className="grid md:grid-cols-3 gap-12 text-center border-t border-b border-white/10 py-16">
             <FadeIn delay={0.1}>
@@ -368,8 +385,13 @@ export default function PrelightLanding() {
       <section className="py-32 px-8 overflow-hidden bg-black">
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <FadeIn>
+            <div className="mb-5">
+              <ShinyText text="✦ LIVE DEMOS" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
             <h2 className="text-[40px] font-bold leading-normal mb-4 capitalize">See it in action</h2>
-            <p className="text-[15px] font-normal opacity-80">Real outputs generated and scaled using structured IP workflows</p>
+            <p className="text-[15px] font-normal opacity-60 max-w-lg mx-auto">
+              Real outputs generated and scaled using structured IP workflows — no prompts, no guesswork.
+            </p>
           </FadeIn>
         </div>
         
@@ -408,9 +430,15 @@ export default function PrelightLanding() {
       <section className="py-32 px-8 bg-black">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-20 text-center">
+            <div className="mb-5 flex justify-center">
+              <ShinyText text="✦ OUR PRODUCTS" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
+            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-6 text-center">
               Two systems. <span className="text-[#26afff] font-light">One</span> controlled workflow.
             </h2>
+            <p className="text-[15px] font-normal opacity-60 max-w-xl mx-auto mb-20 text-center">
+              Prelight STUDIO generates content from your IP library. Prelight SCORE monitors how it's used out in the world.
+            </p>
           </FadeIn>
           
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -518,9 +546,15 @@ export default function PrelightLanding() {
         
         <div className="max-w-6xl mx-auto relative z-10">
           <FadeIn>
-            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-20 text-center">
+            <div className="mb-5 flex justify-center">
+              <ShinyText text="✦ CAPABILITIES" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
+            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-6 text-center">
               What you <span className="text-[#26afff] font-light">unlock</span> with Prelight
             </h2>
+            <p className="text-[15px] font-normal opacity-60 max-w-xl mx-auto mb-20 text-center">
+              A complete stack of capabilities that makes your IP the engine behind every piece of content you produce.
+            </p>
           </FadeIn>
           
           <MagicBento 
@@ -602,11 +636,14 @@ export default function PrelightLanding() {
        <section className="py-24 px-8 bg-black border-t border-white/5">
         <div className="max-w-5xl mx-auto text-center">
           <FadeIn>
+            <div className="mb-5">
+              <ShinyText text="✦ OUR NETWORK" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
+            </div>
             <h2 className="text-[40px] font-bold leading-normal mb-4">
               Elevated Partnerships.
             </h2>
             <p className="text-[15px] font-normal opacity-60 max-w-md mx-auto mb-16 leading-relaxed">
-              Trusted by studios, brands, and agencies pushing the frontier of content at scale.
+              Trusted by studios, brands, and agencies pushing the frontier of IP-powered content at scale.
             </p>
           </FadeIn>
           <FadeIn delay={0.2}>
@@ -629,6 +666,61 @@ export default function PrelightLanding() {
                 </div>
               ))}
             </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* WHY PRELIGHT EXISTS */}
+      <section className="relative py-32 px-8 bg-black overflow-hidden">
+        {/* MagicRings Background */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
+          <div style={{ width: '700px', height: '700px' }}>
+            <MagicRings
+              color="#26afff"
+              colorTwo="#b961ee"
+              speed={0.6}
+              ringCount={6}
+              attenuation={12}
+              lineThickness={2.5}
+              baseRadius={0.3}
+              radiusStep={0.08}
+              scaleRate={0.08}
+              opacity={0.9}
+              blur={0}
+              noiseAmount={0.05}
+              rotation={0}
+              ringGap={1.6}
+              followMouse={false}
+              clickBurst={false}
+            />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <FadeIn>
+            <div className="mb-6">
+              <ShinyText
+                text="✦ WHY PRELIGHT EXISTS"
+                speed={3}
+                delay={0}
+                color="#26afff"
+                shineColor="#ffffff"
+                spread={100}
+                direction="left"
+                yoyo={false}
+                pauseOnHover={false}
+                disabled={false}
+                className="text-[13px] font-bold tracking-[0.25em] uppercase"
+              />
+            </div>
+            <h2 className="text-[48px] md:text-[56px] font-bold leading-[1.1] tracking-tight text-white mb-8">
+              Generative AI is changing how content is created but it removes control from{' '}
+              <span className="italic font-extrabold">IP owners</span>.
+            </h2>
+            <p className="text-[17px] text-gray-400 font-normal max-w-xl mx-auto leading-relaxed">
+              We believe you should be able to scale creativity without giving up ownership, consistency, or security. Prelight turns your IP into a system you can control — not just content you create.
+            </p>
           </FadeIn>
         </div>
       </section>
