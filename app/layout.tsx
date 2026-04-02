@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("scroll-smooth", "font-sans", geist.variable, "dark")}>
+    <html lang="en" className={cn("scroll-smooth", "font-sans", geist.variable, "dark")} suppressHydrationWarning>
       <body className={`${poppins.variable} font-sans bg-prelight-black text-prelight-white antialiased`}>
         {children}
       </body>

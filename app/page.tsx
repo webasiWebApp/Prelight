@@ -12,6 +12,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb, Component, User, Shield, Lock, FileCheck, ChevronRight, Network, ShieldCheck, Zap, FileSignature } from 'lucide-react';
 import MagicBento from '@/components/MagicBento';
+import Grainient from '@/components/Grainient';
 
 // --- REUSABLE COMPONENTS ---
 
@@ -599,12 +600,58 @@ export default function PrelightLanding() {
       </section>
 
       {/* 9. FINAL CTA */}
-      <section className="py-32 px-8 bg-gradient-to-t from-prelight-darkBlue/20 to-prelight-black text-center">
+      <section className="py-20 px-8 bg-black">
         <FadeIn>
-          <h2 className="text-[40px] font-bold leading-normal mb-12 max-w-[800px] mx-auto">
-            See what your workflow could look like in 4-6 weeks
-          </h2>
-          <Button onClick={() => setIsModalOpen(true)} className="text-lg px-12 py-4">Request a Demo</Button>
+          <div className="relative max-w-5xl mx-auto rounded-[20px] overflow-hidden" style={{ minHeight: '440px' }}>
+            {/* Grainient animated background */}
+            <div className="absolute inset-0 rounded-[20px] overflow-hidden">
+              <Grainient
+                color1="#FF9FFC"
+                color2="#5227FF"
+                color3="#B19EEF"
+                timeSpeed={0.25}
+                colorBalance={0}
+                warpStrength={1}
+                warpFrequency={5}
+                warpSpeed={2}
+                warpAmplitude={50}
+                blendAngle={0}
+                blendSoftness={0.05}
+                rotationAmount={500}
+                noiseScale={2}
+                grainAmount={0.1}
+                grainScale={2}
+                grainAnimated={false}
+                contrast={1.5}
+                gamma={1}
+                saturation={1}
+                centerX={0}
+                centerY={0}
+                zoom={0.9}
+              />
+            </div>
+
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/30" />
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center justify-center text-center py-[50px] px-8 h-full" style={{ minHeight: '440px' }}>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/60 mb-6">Ready to take control?</p>
+              <h2 className="text-[48px] md:text-[60px] font-bold leading-[1.05] tracking-tight text-white mb-6 max-w-[700px]">
+                See what your workflow could look like in 4–6 weeks
+              </h2>
+              <p className="text-[18px] text-white/70 font-normal max-w-[480px] mb-12 leading-relaxed">
+                Book a pilot with your team. We'll map your IP, run a content sprint, and show you real results.
+              </p>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-black font-bold text-[16px] hover:bg-white/90 transition-all duration-200 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
+              >
+                Request a Demo
+                <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
         </FadeIn>
       </section>
 

@@ -502,17 +502,17 @@ const BentoCardGrid: React.FC<{
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-
     checkMobile();
     window.addEventListener('resize', checkMobile);
-
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return isMobile;
+  return mounted ? isMobile : false;
 };
 
 const MagicBento: React.FC<BentoProps> = ({
