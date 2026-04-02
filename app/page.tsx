@@ -5,6 +5,11 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import DarkVeil from './reactBitCompo/darkveli';
 import SoftAurora from './reactBitCompo/SoftAurora';
 import GradientText from './reactBitCompo/GradientText';
+import ChromaGrid from '@/components/ChromaGrid';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb } from 'lucide-react';
 
 // --- REUSABLE COMPONENTS ---
@@ -23,6 +28,43 @@ const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: nu
 import Button from './components/Button';
 
 // --- MAIN PAGE ---
+
+const seeItInActionItems = [
+  {
+    image: "https://i.pravatar.cc/300?img=1",
+    title: "Sarah Johnson",
+    subtitle: "Frontend Developer",
+    handle: "@sarahjohnson",
+    borderColor: "#3B82F6",
+    gradient: "linear-gradient(145deg, #3B82F6, #000)",
+    url: "https://github.com/sarahjohnson"
+  },
+  {
+    image: "https://i.pravatar.cc/300?img=2",
+    title: "Mike Chen",
+    subtitle: "Backend Engineer",
+    handle: "@mikechen",
+    borderColor: "#10B981",
+    gradient: "linear-gradient(180deg, #10B981, #000)",
+    url: "https://linkedin.com/in/mikechen"
+  },
+  {
+    image: "https://i.pravatar.cc/300?img=40",
+    title: "Alex Rivera",
+    subtitle: "AI Storyboard Artist",
+    handle: "@arivera",
+    borderColor: "#A855F7",
+    gradient: "linear-gradient(145deg, #A855F7, #000)"
+  },
+  {
+    image: "https://i.pravatar.cc/300?img=43",
+    title: "Jordan Lee",
+    subtitle: "Brand Specialist",
+    handle: "@jordanlee",
+    borderColor: "#F59E0B",
+    gradient: "linear-gradient(180deg, #F59E0B, #000)"
+  }
+];
 
 export default function PrelightLanding() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,7 +170,7 @@ export default function PrelightLanding() {
         <div className="max-w-6xl w-full mx-auto">
           <FadeIn>
             <h2 className="text-[40px] font-medium leading-normal mb-12">
-              Built for  <span className="text-[#4da6ff] font-light">IP</span> Critical Businesses
+              Built for  <span className="text-[#4da6ff] font-light capitalize">IP</span> Critical Businesses
             </h2>
           </FadeIn>
           
@@ -273,7 +315,7 @@ export default function PrelightLanding() {
       <section className="py-24 px-8 bg-black">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
-            <h2 className="text-[40px] font-medium leading-normal mb-16 text-center">Measured Impact</h2>
+            <h2 className="text-[40px] font-medium leading-normal mb-16 text-center capitalize">Measured Impact</h2>
           </FadeIn>
           <div className="grid md:grid-cols-3 gap-12 text-center border-t border-b border-white/10 py-16">
             <FadeIn delay={0.1}>
@@ -320,56 +362,53 @@ export default function PrelightLanding() {
       </section>
 
       {/* 5. SEE IT IN ACTION (CAROUSEL) */}
-      <section className="py-32 px-8 overflow-hidden bg-[#0a0a1a]">
+      <section className="py-32 px-8 overflow-hidden bg-black">
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <FadeIn>
-            <h2 className="text-[40px] font-bold leading-normal mb-4">See it in action</h2>
+            <h2 className="text-[40px] font-bold leading-normal mb-4 capitalize">See it in action</h2>
             <p className="text-[15px] font-normal opacity-80">Real outputs generated and scaled using structured IP workflows</p>
           </FadeIn>
         </div>
         
-        {/* Framer Motion Drag Carousel */}
-        <div className="w-full max-w-7xl mx-auto cursor-grab active:cursor-grabbing">
-          <motion.div 
-            drag="x" 
-            dragConstraints={{ right: 0, left: -1000 }} // Adjust left constraint based on content
-            className="flex gap-6"
+        {/* SwiperJS Carousel with ChromaGrid Cards */}
+        <div className="w-full max-w-7xl mx-auto">
+          <Swiper
+            spaceBetween={30}
+            slidesPerView="auto"
+            loop={true}
+            centeredSlides={true}
+            modules={[Autoplay, Pagination]}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            className="w-full pb-16"
           >
-            {[
-              "Character consistency across scenes",
-              "Multi-language campaign variations",
-              "Storyboard to visual production",
-              "Asset variations at scale"
-            ].map((label, i) => (
-              <motion.div 
-                key={i} 
-                className="min-w-[300px] md:min-w-[400px] rounded-xl overflow-hidden border border-white/10 bg-prelight-black flex-shrink-0"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="aspect-video bg-gray-900 relative">
-                  {/* Placeholder for looping video */}
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-600">
-                    [Video: {label}]
-                  </div>
+            {[...seeItInActionItems, ...seeItInActionItems].map((item, idx) => (
+              <SwiperSlide key={idx} style={{ width: '352px', height: 'auto', display: 'flex' }}>
+                <div className="w-full" style={{ height: '600px', position: 'relative' }}>
+                  <ChromaGrid 
+                    items={[item]}
+                    columns={1}
+                    rows={1}
+                    radius={300}
+                    damping={0.45}
+                    fadeOut={0.6}
+                    ease="power3.out"
+                  />
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-[40px] font-bold leading-normal">{label}</h3>
-                </div>
-              </motion.div>
+              </SwiperSlide>
             ))}
-          </motion.div>
+          </Swiper>
         </div>
       </section>
 
       {/* 5.1 PROBLEM & 6. HOW IT WORKS & 7. PRODUCT (Combined for flow) */}
-      <section className="py-24 px-8 bg-prelight-black">
+      <section className="py-24 px-8 bg-black">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-24">
           
           {/* Problem */}
           <div>
             <FadeIn>
-              <h2 className="text-[40px] font-bold leading-normal mb-8">Why this matters</h2>
+              <h2 className="text-[40px] font-bold leading-normal mb-8 capitalize">Why this matters</h2>
               <ul className="space-y-6 text-lg text-gray-300 font-medium mb-12">
                 <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> Content demand has exploded</li>
                 <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> AI outputs are inconsistent</li>
