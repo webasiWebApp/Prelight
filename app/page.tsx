@@ -10,16 +10,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb } from 'lucide-react';
+import { ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb, Component, User, Shield, Lock, FileCheck, ChevronRight, Network, ShieldCheck, Zap, FileSignature } from 'lucide-react';
+import MagicBento from '@/components/MagicBento';
 
 // --- REUSABLE COMPONENTS ---
 
-const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
     transition={{ duration: 0.7, delay, ease: "easeOut" }}
+    className={className}
   >
     {children}
   </motion.div>
@@ -401,59 +403,198 @@ export default function PrelightLanding() {
         </div>
       </section>
 
-      {/* 5.1 PROBLEM & 6. HOW IT WORKS & 7. PRODUCT (Combined for flow) */}
-      <section className="py-24 px-8 bg-black">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-24">
+      {/* 6. WHY THIS MATTERS (Two Systems) */}
+      <section className="py-32 px-8 bg-black">
+        <div className="max-w-6xl mx-auto">
+          <FadeIn>
+            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-20 text-center">
+              Two systems. <span className="text-[#26afff] font-light">One</span> controlled workflow.
+            </h2>
+          </FadeIn>
           
-          {/* Problem */}
-          <div>
-            <FadeIn>
-              <h2 className="text-[40px] font-bold leading-normal mb-8 capitalize">Why this matters</h2>
-              <ul className="space-y-6 text-lg text-gray-300 font-medium mb-12">
-                <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> Content demand has exploded</li>
-                <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> AI outputs are inconsistent</li>
-                <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> Approval cycles are slowing down</li>
-                <li className="flex items-center gap-3"><span className="text-prelight-purple">→</span> IP risk is increasing</li>
-              </ul>
-              <div className="p-6 border-l-4 border-prelight-blue bg-white/5">
-                <p className="text-[15px] font-normal opacity-80">Brands can generate content faster than they can control it.</p>
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            
+            {/* Card 1: STUDIO */}
+            <FadeIn delay={0.2}>
+              <div className="flex flex-col h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:bg-white/[0.04]">
+                {/* Image Placeholder */}
+                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#26afff]/10 to-transparent flex items-center justify-center border-b border-white/5">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay" alt="Studio Background" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
+                  <Clapperboard className="w-16 h-16 text-[#26afff] relative z-10 opacity-80" />
+                </div>
+                
+                {/* Content */}
+                <div className="p-10 flex flex-col flex-grow">
+                  <div className="mb-6">
+                    <span className="inline-block px-3 py-1 mt-2 text-[11px] font-bold uppercase tracking-wider text-prelight-black bg-[#26afff] rounded-[4px]">
+                      Create
+                    </span>
+                  </div>
+                  <h3 className="text-[32px] font-bold text-[#26afff] mb-4">prelight STUDIO</h3>
+                  <p className="text-[16px] text-gray-300 font-normal opacity-80 mb-10 leading-relaxed">
+                    Generate high-quality, on-brand content at scale using your private IP library.
+                  </p>
+                  
+                  <ul className="space-y-4 mt-auto">
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#26afff]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">Script to image to video workflows</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#26afff]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">Brand-safe generation</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#26afff]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">Multi-language output (70+)</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </FadeIn>
-          </div>
 
-          {/* Product Cards */}
-          <div className="grid gap-6">
-            <FadeIn delay={0.2}>
-              <h2 className="text-[40px] font-bold leading-normal mb-8">How Prelight works</h2>
-            </FadeIn>
-            {[
-              { title: "HUB - Structure", desc: "System of record for your IP" },
-              { title: "STUDIO - Create", desc: "Generate consistent content" },
-              { title: "SCORE - Protect", desc: "Monitor usage and enforce compliance" }
-            ].map((item, i) => (
-              <FadeIn key={i} delay={0.3 + (i * 0.1)}>
-                <div className="p-8 rounded-xl border border-white/10 bg-gradient-to-r from-white/5 to-transparent flex items-center justify-between">
-                  <div>
-                    <h3 className="text-[40px] font-bold leading-normal mb-1">{item.title}</h3>
-                    <p className="text-[15px] font-normal opacity-80">{item.desc}</p>
-                  </div>
+            {/* Card 2: SCORE */}
+            <FadeIn delay={0.4}>
+              <div className="flex flex-col h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:bg-white/[0.04]">
+                {/* Image Placeholder */}
+                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#b961ee]/10 to-transparent flex items-center justify-center border-b border-white/5">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-screen" alt="Score Background" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
+                  <Target className="w-16 h-16 text-[#b961ee] relative z-10 opacity-80" />
                 </div>
-              </FadeIn>
-            ))}
+                
+                {/* Content */}
+                <div className="p-10 flex flex-col flex-grow">
+                  <div className="mb-6">
+                    <span className="inline-block px-3 py-1 mt-2 text-[11px] font-bold uppercase tracking-wider text-white bg-[#b961ee] rounded-[4px]">
+                      Monitor & Protect
+                    </span>
+                  </div>
+                  <h3 className="text-[32px] font-bold text-[#b961ee] mb-4">prelight SCORE</h3>
+                  <p className="text-[16px] text-gray-300 font-normal opacity-80 mb-10 leading-relaxed">
+                    Understand how your IP is used across AI systems and manage risk.
+                  </p>
+                  
+                  <ul className="space-y-4 mt-auto">
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#b961ee]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">IP usage detection</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#b961ee]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">Risk and compliance analysis</span>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-[#b961ee]">
+                        <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-300 text-[15px] font-medium">Ongoing monitoring</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </FadeIn>
+
           </div>
         </div>
       </section>
 
+      {/* 7. WHAT YOU UNLOCK (Bento Grid) */}
+      <section className="py-32 px-8 bg-black relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-prelight-purple/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="max-w-6xl mx-auto relative z-10">
+          <FadeIn>
+            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-20 text-center">
+              What you <span className="text-[#26afff] font-light">unlock</span> with Prelight
+            </h2>
+          </FadeIn>
+          
+          <MagicBento 
+            textAutoHide={false}
+            enableStars={false}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={false}
+            enableMagnetism={false}
+            clickEffect={true}
+            spotlightRadius={400}
+            particleCount={12}
+            glowColor="132, 0, 255"
+            disableAnimations={false}
+          />
+        </div>
+      </section>
+
       {/* 8. TRUST STRIP */}
-      <section className="py-12 border-y border-white/10 bg-[#05050a] overflow-hidden">
-        <div className="flex w-max animate-marquee gap-16 px-8 text-gray-500 font-semibold uppercase tracking-wider text-sm">
-          <span>• Your IP is never used to train external models</span>
-          <span>• Full ownership of all assets</span>
-          <span>• Enterprise-grade privacy</span>
-          <span>• Every output is traceable</span>
-          {/* Duplicate for seamless infinite scroll effect */}
-          <span className="hidden md:inline">• Your IP is never used to train external models</span>
-          <span className="hidden md:inline">• Full ownership of all assets</span>
+      <section className="py-12 border-y border-white/10 bg-[#05050a] overflow-hidden flex group">
+        <div className="flex w-max animate-[marquee_25s_linear_infinite] group-hover:[animation-play-state:paused]">
+          {/* First set */}
+          <div className="flex gap-16 px-8 items-center text-gray-500 font-semibold uppercase tracking-wider text-[30px]">
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <Shield className="w-8 h-8 text-[#26afff]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Your IP is never used to train external models
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <User className="w-8 h-8 text-[#b961ee]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Full ownership of all assets
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <Lock className="w-8 h-8 text-[#26afff]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Enterprise-grade privacy
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <FileCheck className="w-8 h-8 text-[#b961ee]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Every output is traceable
+              </span>
+            </span>
+          </div>
+          {/* Duplicate set for seamless infinite scroll */}
+          <div className="flex gap-16 px-8 items-center text-gray-500 font-semibold uppercase tracking-wider text-[30px]" aria-hidden="true">
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <Shield className="w-8 h-8 text-[#26afff]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Your IP is never used to train external models
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <User className="w-8 h-8 text-[#b961ee]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Full ownership of all assets
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <Lock className="w-8 h-8 text-[#26afff]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Enterprise-grade privacy
+              </span>
+            </span>
+            <span className="flex items-center gap-4 cursor-default whitespace-nowrap flex-shrink-0 group-hover:opacity-100 transition-opacity">
+              <FileCheck className="w-8 h-8 text-[#b961ee]" />
+              <span className="bg-gradient-to-r from-[#26afff] to-[#b961ee] bg-clip-text text-transparent">
+                Every output is traceable
+              </span>
+            </span>
+          </div>
         </div>
       </section>
 
