@@ -1,0 +1,4 @@
+.shiny-text {
+  display: inline-block;
+  /* Animation is JS-driven via motion useAnimationFrame — no CSS animation here */
+}

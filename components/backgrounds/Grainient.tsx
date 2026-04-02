@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import './Grainient.css';
@@ -237,28 +239,10 @@ const Grainient: React.FC<GrainientProps> = ({
       }
     };
   }, [
-    timeSpeed,
-    colorBalance,
-    warpStrength,
-    warpFrequency,
-    warpSpeed,
-    warpAmplitude,
-    blendAngle,
-    blendSoftness,
-    rotationAmount,
-    noiseScale,
-    grainAmount,
-    grainScale,
-    grainAnimated,
-    contrast,
-    gamma,
-    saturation,
-    centerX,
-    centerY,
-    zoom,
-    color1,
-    color2,
-    color3
+    timeSpeed, colorBalance, warpStrength, warpFrequency, warpSpeed,
+    warpAmplitude, blendAngle, blendSoftness, rotationAmount, noiseScale,
+    grainAmount, grainScale, grainAnimated, contrast, gamma, saturation,
+    centerX, centerY, zoom, color1, color2, color3
   ]);
 
   return <div ref={containerRef} className={`grainient-container ${className}`.trim()} />;

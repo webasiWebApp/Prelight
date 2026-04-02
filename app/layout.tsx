@@ -1,19 +1,37 @@
-import type { Metadata } from "next";
-import { Poppins, Geist } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
-
-const poppins = Poppins({ 
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Prelight | The control layer for AI content workflows",
-  description: "Prelight helps studios, brands, and agencies create, scale, and govern content with consistency and full ownership.",
+  description:
+    "Prelight helps studios, brands, and agencies create, scale, and govern content with consistency and full ownership.",
+  openGraph: {
+    title: "Prelight | The control layer for AI content workflows",
+    description:
+      "Create, scale, and govern content with consistency and full ownership.",
+    type: "website",
+    siteName: "Prelight",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Prelight | AI Content Control",
+    description:
+      "Create, scale, and govern content with consistency and full ownership.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -22,8 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("scroll-smooth", "font-sans", geist.variable, "dark")} suppressHydrationWarning>
-      <body className={`${poppins.variable} font-sans bg-prelight-black text-prelight-white antialiased`}>
+    <html lang="en" className={`scroll-smooth dark ${poppins.variable}`} suppressHydrationWarning>
+      <body className="font-sans bg-prelight-black text-prelight-white antialiased">
         {children}
       </body>
     </html>
