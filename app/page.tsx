@@ -13,8 +13,9 @@ import GradientText from "@/components/ui/GradientText";
 
 /* ─── Icons ─── */
 import {
-  ClipboardCheck, Target, Layers, Clapperboard, Globe, Lightbulb,
+  ClipboardCheck, Layers, Globe, Clapperboard, Lightbulb,
   ChevronRight, Shield, User, Lock, FileCheck,
+  Network, ShieldCheck, Zap,
 } from "lucide-react";
 
 /* ─── Heavy components — dynamic import for code splitting ─── */
@@ -23,21 +24,43 @@ const SoftAurora = dynamic(() => import("@/components/backgrounds/SoftAurora"), 
 const MagicRings = dynamic(() => import("@/components/backgrounds/MagicRings"), { ssr: false });
 const Grainient = dynamic(() => import("@/components/backgrounds/Grainient"), { ssr: false });
 const MagicBento = dynamic(() => import("@/components/features/MagicBento"), { ssr: false });
-const ChromaGrid = dynamic(() => import("@/components/features/ChromaGrid"), { ssr: false });
 
 /* ─── Swiper ─── */
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
+
 
 /* ─── Data ─── */
 
-const seeItInActionItems = [
-  { image: "https://i.pravatar.cc/300?img=1", title: "Sarah Johnson", subtitle: "Frontend Developer", handle: "@sarahjohnson", borderColor: "#3B82F6", gradient: "linear-gradient(145deg, #3B82F6, #000)", url: "https://github.com/sarahjohnson" },
-  { image: "https://i.pravatar.cc/300?img=2", title: "Mike Chen", subtitle: "Backend Engineer", handle: "@mikechen", borderColor: "#10B981", gradient: "linear-gradient(180deg, #10B981, #000)", url: "https://linkedin.com/in/mikechen" },
-  { image: "https://i.pravatar.cc/300?img=40", title: "Alex Rivera", subtitle: "AI Storyboard Artist", handle: "@arivera", borderColor: "#A855F7", gradient: "linear-gradient(145deg, #A855F7, #000)" },
-  { image: "https://i.pravatar.cc/300?img=43", title: "Jordan Lee", subtitle: "Brand Specialist", handle: "@jordanlee", borderColor: "#F59E0B", gradient: "linear-gradient(180deg, #F59E0B, #000)" },
+type Channel = 'youtube' | 'tiktok' | 'instagram' | 'broadcast';
+interface VideoCardItem { src: string; title: string; client: string; channels: Channel[]; tag: string; aspect: 'landscape' | 'portrait'; }
+
+// Inline SVG channel icons
+const ChannelIcon = ({ ch }: { ch: Channel }) => {
+  const cls = "w-4 h-4";
+  if (ch === 'youtube') return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+  );
+  if (ch === 'tiktok') return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 3.4A5.5 5.5 0 0 1 14.1 0h-3.8v15.6a2.6 2.6 0 1 1-1.8-2.5V9.2a6.4 6.4 0 1 0 5.6 6.4V8.1a9.3 9.3 0 0 0 5.4 1.7V6a5.5 5.5 0 0 1-1-.6z"/></svg>
+  );
+  if (ch === 'instagram') return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
+  );
+  // broadcast
+  return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm-1-13v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+  );
+};
+
+const videoCardItems: VideoCardItem[] = [
+  { src: "https://images.unsplash.com/photo-1536240478700-b869ad10e128?w=900&auto=format&fit=crop", title: "Global Launch Campaign", client: "Warner Media", channels: ['youtube', 'broadcast'], tag: "16:9", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1574717024453-354056aad792?w=600&h=1067&auto=format&fit=crop", title: "Product Drop Reel", client: "Nike Studios", channels: ['instagram', 'tiktok'], tag: "9:16", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=900&auto=format&fit=crop", title: "Character Universe Spot", client: "Pixar Creative", channels: ['youtube', 'broadcast'], tag: "16:9", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=1067&auto=format&fit=crop", title: "Multi-Market TikTok Series", client: "L'Oréal Group", channels: ['tiktok', 'instagram'], tag: "9:16", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&auto=format&fit=crop", title: "Broadcast Franchise Promo", client: "Sky Studios", channels: ['broadcast', 'youtube'], tag: "16:9", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=600&h=1067&auto=format&fit=crop", title: "Localised Stories — 70+ Langs", client: "Unilever Global", channels: ['instagram', 'tiktok'], tag: "9:16", aspect: "portrait" },
 ];
 
 const processSteps = [
@@ -95,10 +118,10 @@ export default function PrelightLanding() {
           prelight
         </div>
         <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
-          <a href="#" className="hover:text-white transition-colors">Platform</a>
-          <a href="#" className="hover:text-white transition-colors">Solutions</a>
-          <a href="#" className="hover:text-white transition-colors">Resources</a>
-          <a href="#" className="hover:text-white transition-colors">Company</a>
+          <a href="#how-it-works" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Solutions</a>
+          <a href="#products" onClick={(e) => { e.preventDefault(); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Products</a>
+          <a href="#partners" onClick={(e) => { e.preventDefault(); document.getElementById('partners')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Clients</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">About us</a>
         </div>
         <div className="flex items-center gap-4">
           <Button onClick={openModal}>Request Demo</Button>
@@ -137,7 +160,7 @@ export default function PrelightLanding() {
             <Button onClick={openModal}>Request a Demo</Button>
             <div className="flex flex-col sm:flex-row gap-6 mt-8 text-sm text-gray-400 font-medium justify-center items-center">
               <span className="flex items-center gap-2"><ClipboardCheck className="w-4 h-4 text-prelight-blue" /> 60-80% faster approvals</span>
-              <span className="flex items-center gap-2"><Target className="w-4 h-4 text-prelight-purple" /> 50-70% fewer revisions</span>
+              <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-prelight-purple" /> 50-70% fewer revisions</span>
               <span className="flex items-center gap-2"><Layers className="w-4 h-4 text-prelight-blue" /> 2-3x output</span>
             </div>
           </FadeIn>
@@ -152,10 +175,10 @@ export default function PrelightLanding() {
               <ShinyText text="✦ WHO IT'S FOR" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
             </div>
             <h2 className="text-[40px] font-medium leading-normal mb-4">
-              Built for <span className="text-[#4da6ff] font-light capitalize">IP</span> Critical Businesses
+              From Studios to  <span className="text-[#4da6ff] font-light capitalize">global brands </span> with high value IP
             </h2>
             <p className="text-[15px] font-normal opacity-60 max-w-lg mx-auto mb-12">
-              From studios to global brands — any team that creates, governs, or scales proprietary creative assets at volume.
+              Then Anmy team that creates, governs, or scales properties creative assets at volume.
             </p>
           </FadeIn>
 
@@ -205,7 +228,7 @@ export default function PrelightLanding() {
       </section>
 
       {/* ─── 3. HOW IT WORKS ─── */}
-      <section className="relative py-32 px-8 overflow-hidden bg-black">
+      <section id="how-it-works" className="relative py-32 px-8 overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
           <SoftAurora color1="#0077b6" color2="#692bdf" speed={0.5} brightness={0.8} enableMouseInteraction={true} />
         </div>
@@ -224,7 +247,7 @@ export default function PrelightLanding() {
             <FadeIn delay={0.2}>
               <div className="md:max-w-[400px] text-left pt-2">
                 <p className="text-[18px] font-normal leading-relaxed text-gray-300">
-                  From secure IP management to global content scaling: a complete end-to-end workflow
+                  From secure IP management to global content scaling: a complete <span className="font-bold text-[#00ffff]">end-to-end</span> workflow
                 </p>
               </div>
             </FadeIn>
@@ -234,7 +257,7 @@ export default function PrelightLanding() {
             {processSteps.map((item, i) => (
               <FadeIn key={item.step} delay={i * 0.2}>
                 <div className="relative flex flex-col items-center md:items-start group pt-8">
-                  <div className="absolute top-0 md:-top-16 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 text-[160px] font-black leading-none text-white/5 pointer-events-none select-none transition-transform duration-500 group-hover:scale-105 z-0">
+                  <div className="absolute top-0 md:-top-16 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 text-[160px] font-black leading-none text-white/8 pointer-events-none select-none transition-transform duration-500 group-hover:scale-105 z-0">
                     {item.step}
                   </div>
                   <div className="relative z-10 mt-16 md:mt-20 px-4 md:px-0 py-6 md:py-0">
@@ -284,26 +307,73 @@ export default function PrelightLanding() {
             </div>
             <h2 className="text-[40px] font-bold leading-normal mb-4 capitalize">See it in action</h2>
             <p className="text-[15px] font-normal opacity-60 max-w-lg mx-auto">
-              Real outputs generated and scaled using structured IP workflows — no prompts, no guesswork.
+              Real outputs — generated, localised, and scaled using structured IP workflows.
             </p>
           </FadeIn>
         </div>
 
-        <div className="w-full max-w-7xl mx-auto">
+        <div className="w-full">
           <Swiper
-            spaceBetween={30}
+            spaceBetween={20}
             slidesPerView="auto"
             loop={true}
-            centeredSlides={true}
-            modules={[Autoplay, Pagination]}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            className="w-full pb-16"
+            centeredSlides={false}
+            modules={[Autoplay]}
+            autoplay={{ delay: 3500, disableOnInteraction: false }}
+            className="w-full"
+            style={{ paddingLeft: "40px", paddingRight: "40px" }}
           >
-            {[...seeItInActionItems, ...seeItInActionItems].map((item, idx) => (
-              <SwiperSlide key={idx} style={{ width: "352px", height: "auto", display: "flex" }}>
-                <div className="w-full" style={{ height: "600px", position: "relative" }}>
-                  <ChromaGrid items={[item]} columns={1} rows={1} radius={300} damping={0.45} fadeOut={0.6} ease="power3.out" />
+            {[...videoCardItems, ...videoCardItems].map((item, idx) => (
+              <SwiperSlide
+                key={idx}
+                style={{
+                  width: item.aspect === "portrait" ? "260px" : "420px",
+                  height: "auto",
+                  display: "flex",
+                  flexShrink: 0,
+                }}
+              >
+                <div
+                  className="relative rounded-2xl overflow-hidden group flex-shrink-0 w-full border border-[#26afff]/20 hover:border-[#26afff]/60 transition-all duration-300"
+                  style={{ height: item.aspect === "portrait" ? "462px" : "236px" }}
+                >
+                  {/* Thumbnail */}
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  {/* Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" />
+                  <div className="absolute inset-0 bg-[#26afff]/0 group-hover:bg-[#26afff]/8 transition-colors duration-300" />
+
+                  {/* ── TOP: Campaign title + channel icons ── */}
+                  <div className="absolute top-0 left-0 right-0 p-3 flex items-start justify-between gap-2">
+                    <p className="text-white text-[12px] font-semibold leading-snug drop-shadow-lg max-w-[70%]">{item.title}</p>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {item.channels.map(ch => (
+                        <span key={ch} className="text-[#26afff] bg-black/60 border border-[#26afff]/30 rounded-md p-1 backdrop-blur-sm">
+                          <ChannelIcon ch={ch} />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ── CENTER: Play button ── */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-11 h-11 rounded-full bg-[#26afff]/20 border border-[#26afff]/60 flex items-center justify-center backdrop-blur-sm group-hover:bg-[#26afff]/40 group-hover:scale-110 transition-all duration-300">
+                      <svg className="w-4 h-4 text-[#26afff] ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* ── BOTTOM: Client + format tag ── */}
+                  <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between gap-2">
+                    <p className="text-gray-300 text-[11px] font-medium truncate">{item.client}</p>
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-[#26afff] bg-black/60 border border-[#26afff]/40 rounded px-1.5 py-0.5 backdrop-blur-sm flex-shrink-0">{item.tag}</span>
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -312,7 +382,7 @@ export default function PrelightLanding() {
       </section>
 
       {/* ─── 6. TWO SYSTEMS ─── */}
-      <section className="py-32 px-8 bg-black">
+      <section id="products" className="py-32 px-8 bg-black">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
             <div className="mb-5 flex justify-center">
@@ -333,7 +403,7 @@ export default function PrelightLanding() {
                 <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#26afff]/10 to-transparent flex items-center justify-center border-b border-white/5">
                   <Image src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" fill className="object-cover opacity-30 mix-blend-overlay" alt="Studio Background" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
-                  <Clapperboard className="w-16 h-16 text-[#26afff] relative z-10 opacity-80" />
+                  <Image src="/studio.png" alt="Prelight Studio" width={80} height={80} className="relative z-10 object-contain" />
                 </div>
                 <div className="p-10 flex flex-col flex-grow">
                   <div className="mb-6">
@@ -363,7 +433,7 @@ export default function PrelightLanding() {
                 <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#b961ee]/10 to-transparent flex items-center justify-center border-b border-white/5">
                   <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" fill className="object-cover opacity-20 mix-blend-screen" alt="Score Background" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
-                  <Target className="w-16 h-16 text-[#b961ee] relative z-10 opacity-80" />
+                  <Image src="/score.png" alt="Prelight Score" width={80} height={80} className="relative z-10 object-contain" />
                 </div>
                 <div className="p-10 flex flex-col flex-grow">
                   <div className="mb-6">
@@ -390,22 +460,44 @@ export default function PrelightLanding() {
         </div>
       </section>
 
-      {/* ─── 7. BENTO GRID ─── */}
-      <section className="py-32 px-8 bg-black relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-prelight-purple/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="max-w-6xl mx-auto relative z-10">
+      {/* ─── 7. CAPABILITIES ─── */}
+      <section className="py-20 px-8 bg-black relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-prelight-purple/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="max-w-5xl mx-auto relative z-10">
           <FadeIn>
-            <div className="mb-5 flex justify-center">
+            <div className="mb-4 flex justify-center">
               <ShinyText text="✦ CAPABILITIES" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
             </div>
-            <h2 className="text-[50px] font-medium leading-[1.1] tracking-tight text-white mb-6 text-center">
+            <h2 className="text-[40px] font-medium leading-[1.1] tracking-tight text-white mb-4 text-center">
               What you <span className="text-[#26afff] font-light">unlock</span> with Prelight
             </h2>
-            <p className="text-[15px] font-normal opacity-60 max-w-xl mx-auto mb-20 text-center">
+            <p className="text-[15px] font-normal opacity-60 max-w-xl mx-auto mb-12 text-center">
               A complete stack of capabilities that makes your IP the engine behind every piece of content you produce.
             </p>
           </FadeIn>
-          <MagicBento textAutoHide={false} enableStars={false} enableSpotlight={true} enableBorderGlow={true} enableTilt={false} enableMagnetism={false} clickEffect={true} spotlightRadius={400} particleCount={12} glowColor="132, 0, 255" disableAnimations={false} />
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { icon: <Network className="w-5 h-5 text-[#b961ee] flex-shrink-0" strokeWidth={1.5} />, title: "Unified IP Architecture", desc: "Turn your creative DNA into a searchable, intelligent database — stop digging through folders." },
+              { icon: <ShieldCheck className="w-5 h-5 text-[#26afff] flex-shrink-0" strokeWidth={1.5} />, title: "Automated Brand Guardrails", desc: "Every image, video, and script is mathematically aligned with your brand identity from day one." },
+              { icon: <Zap className="w-5 h-5 text-[#26afff] flex-shrink-0" strokeWidth={1.5} />, title: "Linear Cost Scaling", desc: "Multiply your content output 10x–100x without hiring a massive production team." },
+              { icon: <Lock className="w-5 h-5 text-[#b961ee] flex-shrink-0" strokeWidth={1.5} />, title: "Sovereign Asset Control", desc: "100% ownership of inputs and outputs. Your data is never used to train public models." },
+              { icon: <Globe className="w-5 h-5 text-[#26afff] flex-shrink-0" strokeWidth={1.5} />, title: "Native Global Reach", desc: "Localise brand voice and visual nuances across 70+ languages instantly." },
+              { icon: <FileCheck className="w-5 h-5 text-[#b961ee] flex-shrink-0" strokeWidth={1.5} />, title: "Rigorous Compliance", desc: "Ensure all generated content meets legal, ethical, and internal standards before it goes live." },
+            ].map((item, i) => (
+              <FadeIn key={item.title} delay={i * 0.08}>
+                <div className="flex items-start gap-4 p-5 rounded-xl border border-white/8 bg-white/[0.02] hover:border-[#26afff]/30 hover:bg-white/[0.04] transition-all duration-300 group">
+                  <div className="mt-0.5 w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-[#26afff]/10 transition-colors duration-300">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-[15px] font-semibold text-white mb-1">{item.title}</h3>
+                    <p className="text-[13px] text-gray-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -426,7 +518,7 @@ export default function PrelightLanding() {
       </section>
 
       {/* ─── 9. PARTNERS ─── */}
-      <section className="py-24 px-8 bg-black border-t border-white/5">
+      <section id="partners" className="py-24 px-8 bg-black border-t border-white/5">
         <div className="max-w-5xl mx-auto text-center">
           <FadeIn>
             <div className="mb-5">
@@ -438,10 +530,17 @@ export default function PrelightLanding() {
             </p>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-24">
               {partners.map(logo => (
-                <div key={logo.src} className="flex items-center justify-center transition-opacity duration-300">
-                  <Image src={logo.src} alt={logo.alt} width={140} height={72} className="h-16 md:h-18 w-auto object-contain" />
+                <div key={logo.src} className="flex items-center justify-center transition-all duration-300 opacity-40 hover:opacity-100 group">
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={160}
+                    height={80}
+                    className="h-20 w-auto object-contain"
+                    style={{ filter: "brightness(0) invert(1)" }}
+                  />
                 </div>
               ))}
             </div>
@@ -501,20 +600,77 @@ export default function PrelightLanding() {
       </section>
 
       {/* ─── FOOTER ─── */}
-      <footer className="py-12 px-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-xl font-semibold flex items-center gap-2">
-          <Image src="/logo.png" alt="Prelight Logo" width={30} height={30} className="object-contain" />
-          prelight
-        </div>
-        <div className="text-gray-400 font-medium text-sm">Brand-first. Policy-compliant. Fully private.</div>
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <a href="mailto:hello@prelight.ai" className="text-prelight-blue hover:text-white transition-colors font-medium">
-            hello@prelight.ai
-          </a>
-          <span className="text-white/20 hidden md:inline">·</span>
-          <a href="https://webasi.co" target="_blank" rel="noopener noreferrer" className="text-[12px] text-gray-500 hover:text-white transition-colors tracking-wide">
-            design by <span className="font-bold text-gray-300">WEBASI</span>
-          </a>
+      <footer id="contact" className="py-10 px-8 border-t border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Logo */}
+          <div className="text-xl font-semibold flex items-center gap-2">
+            <Image src="/logo.png" alt="Prelight Logo" width={30} height={30} className="object-contain" />
+            prelight
+          </div>
+
+          {/* Social icons */}
+          <div className="flex items-center gap-4">
+            {[
+              {
+                label: "Instagram",
+                href: "https://instagram.com/prelight.ai",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/>
+                  </svg>
+                ),
+              },
+              {
+                label: "YouTube",
+                href: "https://youtube.com/@prelight",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.4 12 20.4 12 20.4s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+                  </svg>
+                ),
+              },
+              {
+                label: "TikTok",
+                href: "#",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M19.6 3.4A5.5 5.5 0 0 1 14.1 0h-3.8v15.6a2.6 2.6 0 1 1-1.8-2.5V9.2a6.4 6.4 0 1 0 5.6 6.4V8.1a9.3 9.3 0 0 0 5.4 1.7V6a5.5 5.5 0 0 1-1-.6z"/>
+                  </svg>
+                ),
+              },
+              {
+                label: "LinkedIn",
+                href: "https://linkedin.com/company/prelight-ai",
+                icon: (
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.5v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.4H3.5V9h3.6v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.5C0 23.2.8 24 1.8 24h20.4c1 0 1.8-.8 1.8-1.8V1.7C24 .8 23.2 0 22.2 0z"/>
+                  </svg>
+                ),
+              },
+            ].map(({ label, href, icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href === "#" ? undefined : "_blank"}
+                rel={href === "#" ? undefined : "noopener noreferrer"}
+                aria-label={label}
+                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-gray-500 hover:text-white hover:border-white/30 transition-all duration-200"
+              >
+                {icon}
+              </a>
+            ))}
+          </div>
+
+          {/* Email + credit */}
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <a href="mailto:hello@prelight.ai" className="text-prelight-blue hover:text-white transition-colors font-medium text-sm">
+              hello@prelight.ai
+            </a>
+            <span className="text-white/20 hidden md:inline">·</span>
+            <a href="https://webasi.co" target="_blank" rel="noopener noreferrer" className="text-[12px] text-gray-500 hover:text-white transition-colors tracking-wide">
+              design by <span className="font-bold text-gray-300">WEBASI</span>
+            </a>
+          </div>
         </div>
       </footer>
 

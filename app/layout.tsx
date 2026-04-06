@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   title: "Prelight | The control layer for AI content workflows",
   description:
     "Prelight helps studios, brands, and agencies create, scale, and govern content with consistency and full ownership.",
+  icons: {
+    icon: "/logo.ico",
+    shortcut: "/logo.ico",
+    apple: "/logo.ico",
+  },
   openGraph: {
     title: "Prelight | The control layer for AI content workflows",
     description:
