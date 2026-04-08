@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -47,6 +48,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`scroll-smooth dark ${poppins.variable}`} suppressHydrationWarning>
       <body className="font-sans bg-prelight-black text-prelight-white antialiased">
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-8QZXDRC8J1"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8QZXDRC8J1');
+          `}
+        </Script>
         {children}
       </body>
     </html>
