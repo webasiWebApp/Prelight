@@ -27,8 +27,9 @@ const MagicBento = dynamic(() => import("@/components/features/MagicBento"), { s
 
 /* ─── Swiper ─── */
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/navigation";
 
 
 /* ─── Data ─── */
@@ -102,6 +103,10 @@ const partners = [
 export default function PrelightLanding() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const lsPrevRef = useRef<HTMLButtonElement>(null);
+  const lsNextRef = useRef<HTMLButtonElement>(null);
+  const ptPrevRef = useRef<HTMLButtonElement>(null);
+  const ptNextRef = useRef<HTMLButtonElement>(null);
   const { scrollYProgress } = useScroll({ target: videoContainerRef, offset: ["start end", "center center"] });
   const videoScale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
 
@@ -145,7 +150,7 @@ export default function PrelightLanding() {
           <div className="absolute inset-0 bg-gradient-to-r from-prelight-black/90 via-prelight-black/60 to-transparent pointer-events-none" />
         </div>
 
-        <div className="relative z-10 max-w-[800px] mt-16 mx-auto flex flex-col items-center">
+        <div className="relative z-10 max-w-[560px] mt-16 mx-auto flex flex-col items-center">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="mb-8">
             <div className="flex items-center justify-center mb-2">
               <div className="text-xl font-semibold flex items-center gap-2">
@@ -326,14 +331,27 @@ any team that creates, governs, or scales properties creative assets at volume.
         </div>
 
         {/* ── Widescreen (16:9) carousel ── */}
-        <div className="w-full mb-4">
+        <div className="w-full mb-4 relative">
           <Swiper
             spaceBetween={20}
             slidesPerView="auto"
             loop={true}
             centeredSlides={false}
-            modules={[Autoplay]}
+            modules={[Autoplay, Navigation]}
             autoplay={{ delay: 3200, disableOnInteraction: false, reverseDirection: false }}
+            navigation={{
+              prevEl: lsPrevRef.current,
+              nextEl: lsNextRef.current,
+            }}
+            onSwiper={(swiper) => {
+              // Re-init navigation after mount so refs are resolved
+              if (swiper.navigation) {
+                (swiper.params.navigation as { prevEl: HTMLButtonElement | null; nextEl: HTMLButtonElement | null }).prevEl = lsPrevRef.current;
+                (swiper.params.navigation as { prevEl: HTMLButtonElement | null; nextEl: HTMLButtonElement | null }).nextEl = lsNextRef.current;
+                swiper.navigation.init();
+                swiper.navigation.update();
+              }
+            }}
             className="w-full"
             style={{ paddingLeft: "40px", paddingRight: "40px" }}
           >
@@ -370,17 +388,36 @@ any team that creates, governs, or scales properties creative assets at volume.
               </SwiperSlide>
             ))}
           </Swiper>
+          {/* Nav arrows */}
+          <button ref={lsPrevRef} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 border border-[#26afff]/40 flex items-center justify-center text-[#26afff] hover:bg-[#26afff]/20 transition-all duration-200">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button ref={lsNextRef} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 border border-[#26afff]/40 flex items-center justify-center text-[#26afff] hover:bg-[#26afff]/20 transition-all duration-200">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </button>
         </div>
 
         {/* ── Vertical (9:16) carousel — scrolls opposite direction ── */}
-        <div className="w-full">
+        <div className="w-full relative">
           <Swiper
             spaceBetween={20}
             slidesPerView="auto"
             loop={true}
             centeredSlides={false}
-            modules={[Autoplay]}
+            modules={[Autoplay, Navigation]}
             autoplay={{ delay: 2800, disableOnInteraction: false, reverseDirection: true }}
+            navigation={{
+              prevEl: ptPrevRef.current,
+              nextEl: ptNextRef.current,
+            }}
+            onSwiper={(swiper) => {
+              if (swiper.navigation) {
+                (swiper.params.navigation as { prevEl: HTMLButtonElement | null; nextEl: HTMLButtonElement | null }).prevEl = ptPrevRef.current;
+                (swiper.params.navigation as { prevEl: HTMLButtonElement | null; nextEl: HTMLButtonElement | null }).nextEl = ptNextRef.current;
+                swiper.navigation.init();
+                swiper.navigation.update();
+              }
+            }}
             className="w-full"
             style={{ paddingLeft: "40px", paddingRight: "40px" }}
           >
@@ -417,6 +454,13 @@ any team that creates, governs, or scales properties creative assets at volume.
               </SwiperSlide>
             ))}
           </Swiper>
+          {/* Nav arrows */}
+          <button ref={ptPrevRef} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 border border-[#b961ee]/40 flex items-center justify-center text-[#b961ee] hover:bg-[#b961ee]/20 transition-all duration-200">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button ref={ptNextRef} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/60 border border-[#b961ee]/40 flex items-center justify-center text-[#b961ee] hover:bg-[#b961ee]/20 transition-all duration-200">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </button>
         </div>
       </section>
 
@@ -439,15 +483,22 @@ any team that creates, governs, or scales properties creative assets at volume.
             {/* STUDIO Card */}
             <FadeIn delay={0.2}>
               <div className="flex flex-col h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:bg-white/[0.04]">
-                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#26afff]/10 to-transparent flex items-center justify-center border-b border-white/5">
-                  <Image src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" fill className="object-cover opacity-30 mix-blend-overlay" alt="Studio Background" sizes="(max-width: 768px) 100vw, 50vw" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
-                  <Image src="/score.png" alt="Prelight Studio" width={80} height={80} className="relative z-10 object-contain" />
+                <div className="relative w-full aspect-[16/9] border-b border-white/5 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1551710029-607e06bd45ff?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    fill
+                    className="object-cover"
+                    alt="Prelight Studio"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-[#26afff]/10 mix-blend-overlay" />
+                  {/* Badge overlay */}
+                  <div className="absolute bottom-4 left-6">
+                    <span className="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-prelight-black bg-[#26afff] rounded-[4px]">Create</span>
+                  </div>
                 </div>
                 <div className="p-10 flex flex-col flex-grow">
-                  <div className="mb-6">
-                    <span className="inline-block px-3 py-1 mt-2 text-[11px] font-bold uppercase tracking-wider text-prelight-black bg-[#26afff] rounded-[4px]">Create</span>
-                  </div>
                   <h3 className="text-[32px] font-bold text-[#26afff] mb-4">prelight STUDIO</h3>
                   <p className="text-[16px] text-gray-300 font-normal opacity-80 mb-10 leading-relaxed">
                     Generate high-quality, on-brand content at scale using your private IP library.
@@ -469,15 +520,22 @@ any team that creates, governs, or scales properties creative assets at volume.
             {/* SCORE Card */}
             <FadeIn delay={0.4}>
               <div className="flex flex-col h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:bg-white/[0.04]">
-                <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-[#b961ee]/10 to-transparent flex items-center justify-center border-b border-white/5">
-                  <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" fill className="object-cover opacity-20 mix-blend-screen" alt="Score Background" sizes="(max-width: 768px) 100vw, 50vw" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-transparent to-transparent opacity-80" />
-                  <Image src="/studio.png" alt="Prelight Score" width={80} height={80} className="relative z-10 object-contain" />
+                <div className="relative w-full aspect-[16/9] border-b border-white/5 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
+                    fill
+                    className="object-cover"
+                    alt="Prelight Score"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05050a] via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-[#b961ee]/10 mix-blend-overlay" />
+                  {/* Badge overlay */}
+                  <div className="absolute bottom-4 left-6">
+                    <span className="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white bg-[#b961ee] rounded-[4px]">Monitor &amp; Protect</span>
+                  </div>
                 </div>
                 <div className="p-10 flex flex-col flex-grow">
-                  <div className="mb-6">
-                    <span className="inline-block px-3 py-1 mt-2 text-[11px] font-bold uppercase tracking-wider text-white bg-[#b961ee] rounded-[4px]">Monitor &amp; Protect</span>
-                  </div>
                   <h3 className="text-[32px] font-bold text-[#b961ee] mb-4">prelight SCORE</h3>
                   <p className="text-[16px] text-gray-300 font-normal opacity-80 mb-10 leading-relaxed">
                     Understand how your IP is used across AI systems and manage risk.
@@ -557,8 +615,8 @@ any team that creates, governs, or scales properties creative assets at volume.
       </section>
 
       {/* ─── 9. PARTNERS ─── */}
-      <section id="partners" className="py-24 px-8 bg-black border-t border-white/5">
-        <div className="max-w-6xl mx-auto text-center">
+      <section id="partners" className="py-24 bg-black border-t border-white/5 overflow-hidden">
+        <div className="max-w-6xl mx-auto text-center px-8">
           <FadeIn>
             <div className="mb-5">
               <ShinyText text="✦ OUR NETWORK" speed={3} delay={0} color="#26afff" shineColor="#ffffff" spread={100} direction="left" className="text-[12px] font-bold tracking-[0.25em] uppercase" />
@@ -568,23 +626,27 @@ any team that creates, governs, or scales properties creative assets at volume.
               Trusted by studios, brands, and agencies pushing the frontier of IP-powered content at scale.
             </p>
           </FadeIn>
-          <FadeIn delay={0.2}>
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-24">
-              {partners.map(logo => (
-                <div key={logo.src} className="flex items-center justify-center transition-all duration-300 opacity-70 hover:opacity-100 group">
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={220}
-                    height={100}
-                    className="h-28 w-auto object-contain"
-                    
-                  />
-                </div>
-              ))}
-            </div>
-          </FadeIn>
         </div>
+        {/* Scrolling logos strip */}
+        <FadeIn delay={0.2}>
+          <div className="flex w-max animate-[marquee_30s_linear_infinite] group hover:[animation-play-state:paused]">
+            {[0, 1].map(setIdx => (
+              <div key={setIdx} className="flex items-center gap-20 px-10" aria-hidden={setIdx === 1}>
+                {partners.map(logo => (
+                  <div key={logo.src + setIdx} className="flex-shrink-0 flex items-center justify-center">
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      width={160}
+                      height={70}
+                      className="h-16 w-auto object-contain grayscale opacity-50 hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </section>
 
       {/* ─── 10. WHY PRELIGHT EXISTS ─── */}
